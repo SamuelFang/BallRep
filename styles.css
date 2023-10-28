@@ -25,7 +25,7 @@ body {
 }
 
 label {
-    font-size: 30px;
+    font-size: 36px;
     display: block;
     text-align: center; /* Center-align the titles */
     margin-bottom: 5px;
@@ -39,7 +39,7 @@ input[type="text"] {
 }
 
 button {
-	font-size: 24px;
+	font-size: 42px;
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -70,24 +70,24 @@ button {
 }
 
 h1 {
-    font-size: 56px;
+    font-size: 60px;
     margin-bottom: 15px;
 }
 
 h2 {
-    font-size: 30px;
+    font-size: 36px;
     margin-bottom: 5px;
 }
 
 p {
-    font-size: 24px;
+    font-size: 28px;
     margin: 5px;
 }
 
 .arrow-button {
     background-color: transparent;
     border: none;
-    font-size: 36px;
+    font-size: 50px;
     color: black; /* Make the arrows black */
     cursor: pointer;
     padding: 10px;
@@ -101,12 +101,12 @@ p {
 }
 
 input[type="text"] {
-    font-size: 36px;
-    width: 80px; /* Adjust the width to your preference */
+    font-size: 50px;
+    width: 140px; /* Adjust the width to your preference */
     text-align: center;
 }
 
 #breakpoint {
-	font-size: 30px;
+	font-size: 40px;
     margin-bottom: 15px; /* Increase the margin below the "Breakpoint" */
 }
