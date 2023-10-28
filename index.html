@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ball Rep</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+</head>
+<body>
+    <div class="duplicated-container">
+        <div class="container">
+            <h1 style="font-family: 'Arial', sans-serif;">Left Lane</h1>
+            <form id="input-form">
+				<label for="starting-board">Starting Board</label>
+				<div class="input-container">
+					<button class="arrow-button" id="decrement-starting-board-Title1" type="button"><i class="fas fa-chevron-left"></i></button>
+					<input type="text" id="starting-board-Title1" name="starting-board" placeholder="15" value="15">
+					<button class="arrow-button" id="increment-starting-board-Title1" type="button"><i class="fas fa-chevron-right"></i></button>
+				</div>
+				<label for="arrow-target">Arrow Target</label>
+				<div class="input-container">
+					<button class="arrow-button" id="decrement-arrow-target-Title1" type="button"><i class="fas fa-chevron-left"></i></button>
+					<input type="text" id="arrow-target-Title1" name="arrow-target" placeholder="13" value="13">
+					<button class="arrow-button" id="increment-arrow-target-Title1" type="button"><i class="fas fa-chevron-right"></i></button>
+				</div>
+				<label for="boards-missed">Pocket Miss</label>
+				<div class="input-container">
+					<button class="arrow-button" id="decrement-boards-missed-Title1" type="button"><i class="fas fa-chevron-left"></i></button>
+					<input type="text" id="boards-missed-Title1" name="boards-missed" placeholder="0" value="0">
+					<button class="arrow-button" id="increment-boards-missed-Title1" type="button"><i class="fas fa-chevron-right"></i></button>
+				</div>
+				<div id="breakpoint">Breakpoint ≈ <span id="breakpoint-value-Title1">0.0</span></div>
+				<button type="button" id="submit-button-Title1">Submit</button>
+			</form>
+
+            <div id="result">
+                <h2>Previous Shots:</h2>
+                <div id="shot-list-Title1"></div>
+            </div>
+
+            <button type="button" id="clear-button-Title1">Clear</button>
+
+            <div id="suggested-shots-Title1">
+                <h2>Suggested Shots:</h2>
+                <div id="suggested-shot-list-Title1"></div>
+                <p id="suggested-shot-2-Title1"></p>
+                <p id="suggested-shot-3-Title1"></p>
+				<p id="suggested-shot-4-Title1"></p>
+				<p id="suggested-shot-5-Title1"></p>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 style="font-family: 'Arial', sans-serif;">Right Lane</h1>
+            <form id="input-form">
+				<label for="starting-board">Starting Board</label>
+				<div class="input-container">
+					<button class="arrow-button" id="decrement-starting-board-Title2" type="button"><i class="fas fa-chevron-left"></i></button>
+					<input type="text" id="starting-board-Title2" name="starting-board" placeholder="15" value="15">
+					<button class="arrow-button" id="increment-starting-board-Title2" type="button"><i class="fas fa-chevron-right"></i></button>
+				</div>
+				<label for="arrow-target">Arrow Target</label>
+				<div class="input-container">
+					<button class="arrow-button" id="decrement-arrow-target-Title2" type="button"><i class="fas fa-chevron-left"></i></button>
+					<input type="text" id="arrow-target-Title2" name="arrow-target" placeholder="13" value="13">
+					<button class="arrow-button" id="increment-arrow-target-Title2" type="button"><i class="fas fa-chevron-right"></i></button>
+				</div>
+				<label for="boards-missed">Pocket Miss</label>
+				<div class="input-container">
+					<button class="arrow-button" id="decrement-boards-missed-Title2" type="button"><i class="fas fa-chevron-left"></i></button>
+					<input type="text" id="boards-missed-Title2" name="boards-missed" placeholder="0" value="0">
+					<button class="arrow-button" id="increment-boards-missed-Title2" type="button"><i class="fas fa-chevron-right"></i></button>
+				</div>
+				<div id="breakpoint">Breakpoint ≈ <span id="breakpoint-value-Title2">0.0</span></div>
+				<button type="button" id="submit-button-Title2">Submit</button>
+			</form>
+
+            <div id="result">
+                <h2>Previous Shots:</h2>
+                <div id="shot-list-Title2"></div>
+            </div>
+
+            <button type="button" id="clear-button-Title2">Clear</button>
+
+            <div id="suggested-shots-Title2">
+                <h2>Suggested Shots:</h2>
+                <div id="suggested-shot-list-Title2"></div>
+				<!-- Adjustment off your last shot, with a similar breakpoint. Use if you recently changed balls or on a new lane. -->
+                <p id="suggested-shot-2-Title2"></p>
+				<!-- Adjustment off your last 5 shots, with a similar breakpoint. Use if you'be bowled on a lane and don't suspect transition. -->
+                <p id="suggested-shot-3-Title2"></p>
+				<!-- Adjustment based on transition off your last 5 shots. Use if you'be bowled on a lane and suspect transition.  -->
+				<p id="suggested-shot-4-Title2"></p>
+				<!-- Adjustment off your last 5 shots, based on your ball's tendencies. Use if you are lost and can't find the pocket.-->
+				<p id="suggested-shot-5-Title2"></p>
+				<!-- Adjustment that has worked for you in the past. Consider this whenever available. -->
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
