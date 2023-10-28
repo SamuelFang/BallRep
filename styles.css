@@ -5,86 +5,108 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .duplicated-container {
     display: flex;
     justify-content: space-between;
-    max-width: 600px; /* Adjust the total width as needed */
+    max-width: 100%; /* Adjust the total width to 100% to fit the screen */
     margin: 0 auto;
+    background-color: #a0a0a0; /* Gray background like a bowling lane */
+    min-height: 100vh; /* Fill the entire viewport height */
+    border: 2px solid #1e1e1e; /* Dark border like the edge of a bowling lane */
 }
+
 .container {
     width: 50%; /* Adjust the width as needed */
     padding: 5px;
     text-align: center;
-    background-color: #f1f1f1; /* Background color for containers */
-    border: 1px solid #ddd; /* Border for containers */
+    background-color: #f4e7d6; /* Gray background like a bowling lane */
+    border: 2px solid #8B4513; /* Dark border like the edge of a bowling lane */
 }
+
 label {
-	font-size: 26px;
+    font-size: 30px;
     display: block;
     text-align: center; /* Center-align the titles */
     margin-bottom: 5px;
 }
+
 input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 0px;
     text-align: center;
 }
+
 button {
+	font-size: 24px;
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
 }
+
 #submit-button {
     background-color: #007bff;
 }
+
 #clear-button-Title1 {
     background-color: #f00;
 }
+
 #clear-button-Title2 {
     background-color: #f00;
 }
+
 #result {
     text-align: center;
     margin-top: 20px;
 }
+
 #suggested-shots {
     text-align: center;
     margin-top: 20px;
 }
+
 h1 {
-    font-size: 36px;
+    font-size: 56px;
     margin-bottom: 15px;
 }
+
 h2 {
-    font-size: 20px;
+    font-size: 30px;
     margin-bottom: 5px;
 }
+
 p {
-    font-size: 16px;
+    font-size: 24px;
     margin: 5px;
 }
+
 .arrow-button {
     background-color: transparent;
     border: none;
-    font-size: 24px;
+    font-size: 36px;
     color: black; /* Make the arrows black */
     cursor: pointer;
     padding: 10px;
 }
+
 .input-container {
     display: flex;
     align-items: center;
     justify-content: center; /* Center-align the content horizontally */
     margin-bottom: 20px; /* Adjust the space between input containers */
 }
+
 input[type="text"] {
-	font-size: 20px;
+    font-size: 36px;
     width: 80px; /* Adjust the width to your preference */
     text-align: center;
 }
+
 #breakpoint {
+	font-size: 30px;
     margin-bottom: 15px; /* Increase the margin below the "Breakpoint" */
 }
