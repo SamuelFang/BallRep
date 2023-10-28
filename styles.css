@@ -39,7 +39,7 @@ input[type="text"] {
 }
 
 button {
-	font-size: 42px;
+	font-size: 60px;
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -87,7 +87,7 @@ p {
 .arrow-button {
     background-color: transparent;
     border: none;
-    font-size: 50px;
+    font-size: 70px;
     color: black; /* Make the arrows black */
     cursor: pointer;
     padding: 10px;
@@ -101,7 +101,7 @@ p {
 }
 
 input[type="text"] {
-    font-size: 50px;
+    font-size: 70px;
     width: 140px; /* Adjust the width to your preference */
     text-align: center;
 }
