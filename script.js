@@ -1,12 +1,14 @@
 // Create arrays to store sets of three numbers for Title 1 and Title 2
 let dataTitle1 = [];
 let dataTitle2 = [];
+let breakpointTitle1 = [];
+let breakpointTitle2 = [];
 
 // Linear regression
-function predictNextNumber(arr) {
+function predictNextNumber(arr, title) {
   // Check if the array has at least two data points to perform linear regression
   if (arr.length < 2) {
-    return arr[0]; // Not enough data for prediction
+    return null; // Not enough data for prediction
   }
 
   // Calculate the sum of X and Y values
@@ -33,6 +35,18 @@ function predictNextNumber(arr) {
   // Predict the next number (assuming it's the next number in the sequence)
   const nextX = arr.length;
   const nextY = m * nextX + b;
+  
+  if(title != undefined){
+	  if(m > 0){
+		  document.getElementById(`transition-value-${title}`).textContent = m.toFixed(1) + " left";
+	  }
+	  else if(m < 0){
+		  document.getElementById(`transition-value-${title}`).textContent = -m.toFixed(1) + " right";
+	  }
+	  else{
+		  document.getElementById(`transition-value-${title}`).textContent = "None";
+	  }
+  }
 
   return nextY;
 }
@@ -53,8 +67,8 @@ function calculateLinearRegressionIntercept(xValues, yValues) {
     denominator += Math.pow(xValues[i] - xMean, 2);
   }
   
-  if(denominator == 0){
-	  return yMean;
+  if(denominator == 0 || xValues.length == 0){
+	  return null;
   }
   
   const m = numerator / denominator;
@@ -109,10 +123,20 @@ const addData = (title) => {
             dataTitle1.push([startingBoard, arrowTarget, boardsMissed]);
             displayData(dataTitle1, 'Title1');
             displaySuggestedShots(dataTitle1, startingBoard, arrowTarget, boardsMissed, 'Title1');
+			if(Math.abs(boardsMissed) <= 1){
+				breakpointTitle1.push(getBreakpoint(startingBoard, arrowTarget));
+				const sum = breakpointTitle1.reduce((acc, currentValue) => acc + currentValue, 0);
+				document.getElementById("t-breakpoint-value-Title1").textContent = (sum / breakpointTitle1.length).toFixed(1);
+			}
         } else if (title === 'Title2') {
             dataTitle2.push([startingBoard, arrowTarget, boardsMissed]);
             displayData(dataTitle2, 'Title2');
             displaySuggestedShots(dataTitle2, startingBoard, arrowTarget, boardsMissed, 'Title2');
+			if(Math.abs(boardsMissed) <= 1){
+				breakpointTitle2.push(getBreakpoint(startingBoard, arrowTarget));
+				const sum = breakpointTitle2.reduce((acc, currentValue) => acc + currentValue, 0);
+				document.getElementById("t-breakpoint-value-Title2").textContent = (sum / breakpointTitle2.length).toFixed(1);
+			}
         }
     } else {
         alert('Please enter valid numbers for all fields.');
@@ -157,7 +181,9 @@ function displaySuggestedShots(data, startingBoard, arrowTarget, boardsMissed, t
 		startingBoards.push(suggestedStartingBoard);
         const suggestedArrowTarget = arrowTarget + boardsMissed / 2;
 		arrowTargets.push(suggestedArrowTarget);
-        suggestedShotList.innerHTML = `<p>Basic: ${suggestedStartingBoard.toFixed(1)} -> ${suggestedArrowTarget.toFixed(1)}</p>`;
+        suggestedShotList.innerHTML = `<p>Basic: ${suggestedStartingBoard.toFixed(1)} -> ${suggestedArrowTarget.toFixed(1)} 
+		(${(getBreakpoint(suggestedStartingBoard,suggestedArrowTarget)).toFixed(1)})
+		</p>`;
     }
 
     // Calculate Suggested Shot 2 (weighted average of Suggested Shot 1 values)
@@ -176,25 +202,38 @@ function displaySuggestedShots(data, startingBoard, arrowTarget, boardsMissed, t
     const avgA2 = totalWeightedA / totalWeight;
     const avgB2 = totalWeightedB / totalWeight;
 
-    suggestedShot2.textContent = `Stable: ${avgA2.toFixed(1)} -> ${avgB2.toFixed(1)}`;
+    suggestedShot2.textContent = `House: ${avgA2.toFixed(1)} -> ${avgB2.toFixed(1)} 
+	(${(getBreakpoint(avgA2,avgB2)).toFixed(1)})`;
 	
-	suggestedShot3.textContent = `Transition: ${predictNextNumber(startingBoards).toFixed(1)} -> ${predictNextNumber(arrowTargets).toFixed(1)}`;
+	if (predictNextNumber(startingBoards) == null){
+		suggestedShot3.textContent = `Transition: Not enough data`;
+	}
+	else{
+		suggestedShot3.textContent = `Transition: ${predictNextNumber(startingBoards, title).toFixed(1)} -> ${predictNextNumber(arrowTargets).toFixed(1)} 
+		(${(getBreakpoint(predictNextNumber(startingBoards),predictNextNumber(arrowTargets))).toFixed(1)})`;
+	}
 	
 	const firstValues = last5Sets.map(arr => arr[0]);
 	const secondValues = last5Sets.map(arr => arr[1]);
 	const thirdValues = last5Sets.map(arr => arr[2]);
-
-	suggestedShot4.textContent = `Customized: ${calculateLinearRegressionIntercept(thirdValues, firstValues).toFixed(1)} -> ${calculateLinearRegressionIntercept(thirdValues, secondValues).toFixed(1)}`;
 	
+	if(calculateLinearRegressionIntercept(thirdValues, firstValues) == null){
+		suggestedShot4.textContent = `Sport: Not enough data`;
+	}
+	else{
+		suggestedShot4.textContent = `Sport: ${calculateLinearRegressionIntercept(thirdValues, firstValues).toFixed(1)} -> ${calculateLinearRegressionIntercept(thirdValues, secondValues).toFixed(1)} 
+		(${(getBreakpoint(calculateLinearRegressionIntercept(thirdValues, firstValues),calculateLinearRegressionIntercept(thirdValues, secondValues))).toFixed(1)})`;
+	}
+
 	const results = findPrevious(data, thirdValues[thirdValues.length - 1]);
-	console.log(results);
 	if (results[0] == null){
-		suggestedShot5.textContent = `Historic: No shots found`;
+		suggestedShot5.textContent = `Proven: No shots found`;
 	}
 	else{
 		const move1 = results[1][0] - results[0][0];
 		const move2 = results[1][1] - results[0][1];
-		suggestedShot5.textContent = `Historic: ${(firstValues[firstValues.length - 1] + move1).toFixed(1)} -> ${(secondValues[secondValues.length - 1] + move2).toFixed(1)}`;
+		suggestedShot5.textContent = `Proven: ${(firstValues[firstValues.length - 1] + move1).toFixed(1)} -> ${(secondValues[secondValues.length - 1] + move2).toFixed(1)} 
+		(${(getBreakpoint((firstValues[firstValues.length - 1] + move1),(secondValues[secondValues.length - 1] + move2))).toFixed(1)})`;
 	}
 }
 
@@ -209,25 +248,6 @@ document.addEventListener('keyup', (event) => {
         addData(activeTitle);
     }
 });
-
-document.getElementById('clear-button-Title1').addEventListener('click', () => {
-	// Clear the data array
-    dataTitle1 = [];
-	
-    // Clear the display
-    const suggestedShotList = document.getElementById('shot-list-Title1');
-    suggestedShotList.innerHTML = '';
-});
-
-document.getElementById('clear-button-Title2').addEventListener('click', () => {
-	// Clear the data array
-    dataTitle2 = [];
-	
-    // Clear the display
-    const suggestedShotList = document.getElementById('shot-list-Title2');
-    suggestedShotList.innerHTML = '';
-});
-
 
 // Function to handle incrementing the number in the specified text box
 const incrementNumber = (textboxId) => {
@@ -297,6 +317,10 @@ function updateBreakpoint() {
     const arrowTargetInput2 = parseFloat(document.getElementById("arrow-target-Title2").value) || 0;
     const breakpointValue2 = (arrowTargetInput2 - startingBoardInput2) * (5.5 / 4.5) + arrowTargetInput2;
     document.getElementById("breakpoint-value-Title2").textContent = breakpointValue2.toFixed(1);
+}
+
+function getBreakpoint(board, arrow) {
+    return (arrow - board) * (5.5 / 4.5) + arrow;
 }
 
 // Add an event listener to update "Breakpoint" on input change
