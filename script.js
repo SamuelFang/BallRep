@@ -150,11 +150,11 @@ const displayData = (data, title) => {
 
     data.forEach((item, index) => {
         if (item[2] > 0) {
-            resultDiv.innerHTML += `<p>Shot ${index + 1}: ${item[0]} -> ${item[1]}, high by ${item[2]} boards</p>`;
+            resultDiv.innerHTML = `<p>Shot ${index + 1}: ${item[0]} -> ${item[1]}, high ${item[2]} boards</p>` + resultDiv.innerHTML;
         } else if (item[2] < 0) {
-            resultDiv.innerHTML += `<p>Shot ${index + 1}: ${item[0]} -> ${item[1]}, light by ${-item[2]} boards</p>`;
+            resultDiv.innerHTML = `<p>Shot ${index + 1}: ${item[0]} -> ${item[1]}, light ${-item[2]} boards</p>` + resultDiv.innerHTML;
         } else {
-            resultDiv.innerHTML += `<p>Shot ${index + 1}: ${item[0]} -> ${item[1]}, flush pocket</p>`;
+            resultDiv.innerHTML = `<p>Shot ${index + 1}: ${item[0]} -> ${item[1]}, flush pocket</p>` + resultDiv.innerHTML;
         }
     });
 };
@@ -236,6 +236,49 @@ function displaySuggestedShots(data, startingBoard, arrowTarget, boardsMissed, t
 		(${(getBreakpoint((firstValues[firstValues.length - 1] + move1),(secondValues[secondValues.length - 1] + move2))).toFixed(1)})`;
 	}
 }
+document.getElementById('clear-button-Title1').addEventListener('click', () => {
+	// Clear the data array
+    dataTitle1 = [];
+
+    // Clear the display
+    const suggestedShotList = document.getElementById('shot-list-Title1');
+    suggestedShotList.innerHTML = '';
+});
+
+document.getElementById('clear-button-Title2').addEventListener('click', () => {
+	// Clear the data array
+    dataTitle2 = [];
+
+    // Clear the display
+    const suggestedShotList = document.getElementById('shot-list-Title2');
+    suggestedShotList.innerHTML = '';
+});
+
+document.getElementById('undo-button-Title1').addEventListener('click', () => {
+	if (dataTitle1.length > 0) {
+	  dataTitle1.pop();
+	}
+	
+    const suggestedShotList = document.getElementById('shot-list-Title1');
+    const lastChild = suggestedShotList.lastElementChild;
+
+	if (lastChild) {
+	  suggestedShotList.removeChild(lastChild);
+	}
+});
+
+document.getElementById('undo-button-Title2').addEventListener('click', () => {
+	if (dataTitle2.length > 0) {
+	  dataTitle2.pop();
+	}
+	
+    const suggestedShotList = document.getElementById('shot-list-Title2');
+    const lastChild = suggestedShotList.lastElementChild;
+
+	if (lastChild) {
+	  suggestedShotList.removeChild(lastChild);
+	}
+});
 
 // Event listeners
 document.getElementById('submit-button-Title1').addEventListener('click', () => addData('Title1'));
