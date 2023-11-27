@@ -4,6 +4,42 @@ let dataTitle2 = [];
 let breakpointTitle1 = [];
 let breakpointTitle2 = [];
 
+// Get the input elements
+const driftInput = document.getElementById('drift');
+const weightInput = document.getElementById('weight');
+const historyInput = document.getElementById('history');
+
+// Retrieve values from local storage or use default values
+let driftWeightHistory = {
+  drift: localStorage.getItem('drift') || 0,
+  weight: localStorage.getItem('weight') || 3,
+  history: localStorage.getItem('history') || 5,
+};
+
+// Update input values with stored values
+driftInput.value = driftWeightHistory.drift;
+weightInput.value = driftWeightHistory.weight;
+historyInput.value = driftWeightHistory.history;
+
+// Add event listeners to update local storage on input change
+driftInput.addEventListener('input', updateLocalStorage);
+weightInput.addEventListener('input', updateLocalStorage);
+historyInput.addEventListener('input', updateLocalStorage);
+
+// Function to update local storage with current input values
+function updateLocalStorage() {
+  driftWeightHistory = {
+	drift: driftInput.value,
+	weight: weightInput.value,
+	history: historyInput.value,
+  };
+
+  // Update local storage
+  Object.keys(driftWeightHistory).forEach(key => {
+	localStorage.setItem(key, driftWeightHistory[key]);
+  });
+}
+	
 // Linear regression
 function predictNextNumber(arr, title) {
   // Check if the array has at least two data points to perform linear regression
@@ -168,7 +204,7 @@ function displaySuggestedShots(data, startingBoard, arrowTarget, boardsMissed, t
 	const suggestedShot5 = document.getElementById(`suggested-shot-5-${title}`);
 
     // Get the 5 most recent sets of three numbers from the data array
-    const last5Sets = data.slice(-5);
+    const last5Sets = data.slice(-1 * parseInt(historyInput.value));
 	
 	let startingBoards = [];
 	let arrowTargets = [];
@@ -193,7 +229,7 @@ function displaySuggestedShots(data, startingBoard, arrowTarget, boardsMissed, t
 
     for (let i = 0; i < last5Sets.length; i++) {
         const [shotA, shotB, miss] = last5Sets[i].slice(0, 3);
-        const weight = (i + 1) * 3; // Adjust the weight as needed
+        const weight = (i + 1) * parseInt(weightInput.value); // Adjust the weight as needed
         totalWeightedA += (shotA + miss) * weight;
         totalWeightedB += (shotB + miss / 2) * weight;
         totalWeight += weight;
@@ -284,14 +320,6 @@ document.getElementById('undo-button-Title2').addEventListener('click', () => {
 document.getElementById('submit-button-Title1').addEventListener('click', () => addData('Title1'));
 document.getElementById('submit-button-Title2').addEventListener('click', () => addData('Title2'));
 
-// Submit the form when the Enter key is pressed
-document.addEventListener('keyup', (event) => {
-    if (event.key === 'Enter') {
-        const activeTitle = document.querySelector('.title-container.active').id;
-        addData(activeTitle);
-    }
-});
-
 // Function to handle incrementing the number in the specified text box
 const incrementNumber = (textboxId) => {
     const textBox = document.getElementById(textboxId);
@@ -354,16 +382,16 @@ buttonIds.forEach((title) => {
 function updateBreakpoint() {
     const startingBoardInput1 = parseFloat(document.getElementById("starting-board-Title1").value) || 0;
     const arrowTargetInput1 = parseFloat(document.getElementById("arrow-target-Title1").value) || 0;
-    const breakpointValue1 = (arrowTargetInput1 - startingBoardInput1) * (5.5 / 4.5) + arrowTargetInput1;
+    const breakpointValue1 = getBreakpoint(startingBoardInput1, arrowTargetInput1);
     document.getElementById("breakpoint-value-Title1").textContent = breakpointValue1.toFixed(1);
 	const startingBoardInput2 = parseFloat(document.getElementById("starting-board-Title2").value) || 0;
     const arrowTargetInput2 = parseFloat(document.getElementById("arrow-target-Title2").value) || 0;
-    const breakpointValue2 = (arrowTargetInput2 - startingBoardInput2) * (5.5 / 4.5) + arrowTargetInput2;
+    const breakpointValue2 = getBreakpoint(startingBoardInput2, arrowTargetInput2);
     document.getElementById("breakpoint-value-Title2").textContent = breakpointValue2.toFixed(1);
 }
 
 function getBreakpoint(board, arrow) {
-    return (arrow - board) * (5.5 / 4.5) + arrow;
+    return (arrow - (board + parseInt(driftInput.value))) * (5.5 / 4.5) + arrow;
 }
 
 // Add an event listener to update "Breakpoint" on input change
